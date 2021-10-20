@@ -25,3 +25,5 @@ After sorting, it becomes [0,1,9,16,100].
 > -104 <= nums[i] <= 104
 > 
 > nums is sorted in non-decreasing order.
+
+[LeetCode link: https://leetcode.com/problems/squares-of-a-sorted-array/]
