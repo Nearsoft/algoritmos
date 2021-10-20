@@ -1,3 +1,4 @@
+//The name of this fale must be change to Solution.java
 class Solution {
     // The total complexity of this solution is O(n)
     public int[] sortedSquares(int[] nums) {
