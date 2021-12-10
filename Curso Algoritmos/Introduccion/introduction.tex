@@ -1,0 +1,46 @@
+\chapter{Complejidad computacional}
+
+Para medir la complejidad computacional ya sea en memoria o en tiempo, es recomendable recordar como funciona una computadora a bajo nivel.
+
+\section{Sistema mínimo}
+
+ Se definirá un sistema imaginario  para analizar la complejidad  de los algoritmos y de aquí en adelante cualquier algoritmo de este curso, supondremos que se ejecuta en este sistema mínimo. 
+
+\begin{itemize}
+    \item Procesador: es el cerebro, realiza operaciones aritméticas simples: sumas, restas, divisiones, multiplicaciones. Además, realiza instrucciones de ramificación (if,switch) y de saltos en el programa. Finalmente, también lee y escribe de la memoria. Nota: las operaciones aritméticas son ``instantaneas'' siempre y cuando los números no sean ``muy grandes''.
+    \item Memoria: es el lugar donde se pueden almacenar datos en forma de números, es como una estantería numerada del 0 hasta cualquier numero que se te ocurra. Nota: cada dato solo ocupa un lugar de la estantería siempre y cuando este no sea ``muy grande''.
+    \item Reloj: es el corazón del sistema, manda pulso al procesador para decirle que ejecute una instrucción. 
+\end{itemize}
+
+En el sistema que acabamos de definir que una instrucción sea ``instantanea'' significa que la instrucción se ejecuta en un pulso del reloj, en un solo latido el procesador completó la instrucción. Y un numero ``muy grande'' es aquel cuya representación binaria ocupa una mayor cantidad de bits de los que el procesador fue diseñado para manejar con facilidad. En la actualidad existen sistemas que realizan operaciones con números de 128 bits en un solo pulso de reloj.
+
+Es importante enfatizar este aspecto sobre operaciones aritméticas y funciones matemáticas, puesto que frecuentemente cometemos el error de asumir que todas estas se ejecutan de manera casi inmediata. Un ejemplo donde podríamos cometer este error se encuentra en el lenguaje java, donde una multiplicación de dos números cuyo tipo de datos es \emph{int} se considera una operación inmediata sin importar los números sumados. Pero si se utiliza la clase \emph{BigInteger} entonces para realizar una multiplicación el procesador necesita más latidos, tantos como el cuadrado del tamaño de los números multiplicados, es decir multiplicar 5*2 es mas rápido que multiplicar 5,000,000,006 *  3,430,202,224. Es por esto que independientemente del lenguaje utilizado, debemos conocer como funciona nuestro lenguaje de manera interna, para utilizar los tipos de datos adecuados.
+
+
+\section{Notación Big O}
+ 
+ La notación Big O, nos da una idea de la cantidad de recursos usados en memoria y tiempo con respecto a la entrada de nuestro algoritmo. Y esta solo se preocupa por el peor de los casos.
+ 
+ 
+ Por ejemplo, en la memoria alguien guarda $n$ números aleatorios y nos pide encontrar un numero arbitrario $k$. Entonces el programa más simple, sería comparar cada uno de esos números con respecto a $k$ hasta que lo encontremos. La lectura de cada numero de entrada nos llevara un pulso y la comparación con $k$ otro pulso es decir por cada numero de la entrada nuestro reloj deberá dar 2 pulsos. Por lo que para buscar el numero $k$, nuestro sistema usará $2n$ pulsos mas $c$ pulsos extra, por ejemplo código de inicialización que no se relaciona con la entrada. En este caso diremos que nuestro sistema toma $2n+c$ pulsos para dar una respuesta y su complejidad en tiempo es $O(n)$. 
+ 
+Como se vio en el ejemplo anterior, la notación Big O, solo representa de manera general como crece la complejidad y no la formula exacta de pulsos que nos toma ejecutar el programa. Para aclarar mas este punto, a continuación se ponen ejemplos de formulas especificas de pulsos de ejecución y como se representarían en notación Big O.
+
+\begin{itemize}
+    \item $10$ pulsos es  una complejidad constante $O(1)$.
+    \item $40*n+10$ pulsos es  una complejidad lineal $O(n)$.
+    \item $100*n^2 + 400*n+10$ pulsos es  una complejidad cuadrática $O(n^2)$.
+    \item $100*n^3 + + 100*n^2 + 400*n+10$ pulsos es  una complejidad cubica $O(n^3)$.
+    \item $30*\log(n)$ pulsos es  una complejidad logarítmica $O(\log(n))$. 
+    \item $n + 30*\log(n)$ pulsos es  una complejidad lineal $O(n)$.
+    \item $n + 30*n*\log(n))$ pulsos es  una complejidad $O(n*\log(n))$.
+    \item $n^2 + n + 30*n*\log(n))$ pulsos es  una complejidad cuadrática $O(n^2)$.
+\end{itemize}
+
+ Si te preguntas, ¿entonces como decido cual formula poner dentro de la $O()$? pues la respuesta mas teórica seria aquel termino que crezca mas rápido. Como esos son aspectos matemáticos, el orden mas simple a recordar es: 
+ 
+ $$O(1) < O(\log(n)) < O(n) < O(n*\log(n)) < O(n^2) < \dots < O(n^k) < O(2^n) < O(n!)$$
+ 
+ Al igual que la complejidad en tiempo la complejidad en memoria usa los mismos criterios, es decir si la cantidad de memoria que el algoritmo utiliza no crece entonces nuestra memoria es constante, por el contrario si nuestra memoria crece con respecto a la entrada entonces ya podríamos hablar de complejidades lineales, cuadráticas, etc.
+
+

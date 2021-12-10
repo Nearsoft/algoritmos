@@ -1,0 +1,238 @@
+\chapter{Algoritmos}
+
+El propósito de este capitulo es ser una referencia rápida sobre algunas técnicas algorítmicas y sus complejidades.
+
+Antes de hablar sobre los algoritmos, me gustaría hacer un pequeño paréntesis para hablar de recursion. Usualmente es mal vista en la programación empresarial y es muy usada en la teoría de algoritmos. Para las entrevistas de algoritmos esta bien utilizarla, y siempre hay que recordar que todo algoritmo recursivo puede ser transformado en uno iterativo.
+
+\section{Técnica ``Divide y Venceras''}
+
+La técnica ``Divide y Venceras'' consiste en dividir un problema en subproblemas mas pequeños y luego juntar las respuestas arrojadas por cada subproblema para así obtener la respuesta final. Los ingredientes para un algoritmo divide y veceras son:
+
+\begin{itemize}
+    \item \textbf{Una condición final:} piensa en el subproblema mas pequeño en el que tu problema principal se puede dividir y codea como se resolvería.
+    \item \textbf{Subdivisión del problema:} piensa en como se dividirá el problema, puede ser a la mitad, o en múltiples cachitos. Manda a llamar a tu función principal recursivamente y guarda el resultado de esos subproblemas.
+    \item \textbf{Una función de merge:} piensa como esas soluciones individuales se relacionan y crea una función que obtenga el resultado unificado.
+\end{itemize}
+
+\subsection{Merge sort}
+
+\textbf{Complejidad:} $O(n \log n)$
+
+El algoritmo de ``merge sort'' es un ordenamiento estable, es decir si tenemos los elementos $[3_1, 1_1,3_2]$ al ordenarlos, respeta el orden de aparición de elementos iguales, $[1_1,3_1,3_2]$.
+
+Veamos, este proceso en acción con el algoritmo de ordenamiento. 
+
+\begin{itemize}
+    \item \textbf{Una condición final:} un único numero $a$ se considera ordenado, entonces lo regresamos como resultado.
+    \item \textbf{Subdivisión del problema:} la entrada seguramente será un array de números,  entonces dividimos al problema en 2 cachos. Uno del inicio a la mitad y otro de la mitad al final del array. Y nos enfocamos solo a ordenar cada mitad por separado.
+    \item \textbf{Una función de merge:} suponiendo que tengo dos números $a$ y $b$, la forma de ``mergearlos'' en un array ordenado, es comparar $a$ con $b$ y guardar el mas pequeño primero y el mas grande después. 
+\end{itemize}
+
+A continuación se observa un ejemplo de funcion mergeSort escrita en Python:
+\begin{lstlisting}[language=Python, caption=Merge sort]
+def mergeSort(arr):
+    #Aqui el caso base si len(arr) == 1, no hace nada porque
+    #lo considera ordenado
+    if len(arr) > 1:
+  
+        mid = len(arr)//2
+        L = arr[:mid]
+        R = arr[mid:]
+ 
+        #Resuelve el problema para 2 subproblemas       
+        mergeSort(L)
+        mergeSort(R)
+  
+        #Aqui inicia la funcion de merge, que compara los 2 elementos
+        #mas pequeños de L y R, y agrega primero 
+        #el mas pequeño de ambos.
+        i = j = k = 0
+        while i < len(L) and j < len(R):
+            if L[i] < R[j]:
+                arr[k] = L[i]
+                i += 1
+            else:
+                arr[k] = R[j]
+                j += 1
+            k += 1
+  
+        #Si hay elementos que sobraron del proceso anterior solo
+        #los agrego, ya deben estar ordenados
+        while i < len(L):
+            arr[k] = L[i]
+            i += 1
+            k += 1
+  
+        while j < len(R):
+            arr[k] = R[j]
+            j += 1
+            k += 1
+\end{lstlisting}
+
+Es importante recordar el algoritmo de merge sort ya que es utilizando en algunas entrevistas. Y también hay que recordar en general cuando usemos la función sort durante nuestras entrevistas, podemos decir con confianza que su complejidad es $O(n\log n)$ y podemos asumir que esa función sort utiliza el algoritmo merge sort para ordenar los datos.
+
+\subsection{Altura de un arbol}
+
+La altura de un árbol es el numero de nodos que hay desde la raiz, hasta el hijo mas alejado. Para obtener la altura de un árbol podemos utilizar la tecnica de ``divide y venceras''. 
+
+\begin{itemize}
+    \item \textbf{Una condición final:} un único nodo $a$ tiene altura cero.
+    \item \textbf{Subdivisión del problema:} un nodo raíz de un árbol puede tener múltiples hijos, puedo encontrar la altura de todos ellos llamando recursivamente a la funcion principal.
+    \item \textbf{Una función de merge:} necesito la altura del hijo mas alto, entonces utilizo una función max para encontrar al hijo mas alto, y a su altura le sumo 1 (el nodo raiz). 
+\end{itemize}
+
+
+Código de ejemplo:
+
+\begin{lstlisting}[language=JavaScript, caption=Altura de un arbol]
+function getHeight(raiz){
+    //Suponemos que los hijos del arbol estan en un array dinamico
+    let children = raiz.getChildren();
+    //Si el nodo no tiene hijos, es una hoja de altura 0
+    if(children.length == 0){
+        return 0;
+    }
+    
+    //Parte de dividir en subproblemas
+    let maxHeight = -1;
+    for(let i=0; i< children.length;i++){
+        let childHeight = getHeight(children[i]);
+        
+        //Parte de mergear los resultados
+        maxHeight = childHeight > maxHeight? childHeight : maxHeight
+    }
+    
+    return maxHeight + 1;
+}
+\end{lstlisting}
+
+\section{Técnica ``Greedy''}
+
+La técnica grredy se utiliza habitalmente para problemas en donde se quiere maximizar alguna variable. Por ejemplo eres un ladrón con una mochila que solo puede cargar 10kg de objetos y buscas meter a la mochila los objetos mas valiosos pero menos pesados. Los pasos para resolver problemas de este tipo son:
+
+\begin{enumerate}
+    \item Ordenar los datos de entrada.
+    \item Meter el primer dato a la solución, verificar que no se exceda el limite dado o cualquier otra condición y continuar así por cada elemento hasta que tengamos la solución.
+\end{enumerate}
+
+\subsection{Organizar fiestas}
+
+Supongamos tenemos una lista de fiestas, cada fiesta tiene una hora de inicio y una hora de fin. Queremos atender al mayor numero de fiestas sin que estas se traslapen. Entonces usaremos la técnica ``Greedy''.
+
+\begin{enumerate}
+    \item Ordenamos las fiestas de acuerdo a su hora de fin. Así asistimos a la fiesta que acabe mas temprano, lo nos deja mas tiempo para asistir a mas fiestas.
+    \item Agregamos la primer fiesta a la lista de fiestas que asistiremos. Verificamos que la segunda fiesta su hora de inicio no se traslape con la que acabamos de agregar, si se traslapa no la agregamos y si no se traslapa la agregamos. Y así sucesivamente con cada una, la vamos agregando con la condición de que no se traslape con la ultima que agregamos.
+\end{enumerate}
+
+Como vemos, el ciclo de construir la respuesta tiene complejidad lineal $O(n)$, pero el ordenamiento como ya sabemos debemos declarar que sucede en tiempo $O(n \log n)$.
+
+\subsection{El problema de la mochila}
+
+Supongamos nos dan una lista de semillas, cada semilla tiene un valor nutrimental y un peso. Se nos piden $k$ kilos de tal manera que se maximice el valor nutrimental.
+
+\begin{enumerate}
+    \item Ordenamos las semillas de manera descendiente de acuerdo al radio de su valor nutrimental contra su peso $\frac{\text{Valor nutrimental}}{\text{peso}}$. De esta manera las semillas mas nutritivas y menos pesadas estarán al inicio. 
+    \item Agregamos mayor cantidad de semillas del primer tipo, sin rebasar el peso limite. Luego verificamos una por una y en orden, que otro tipo de semilla podemos agregar, sin que se rebase el peso limite.
+\end{enumerate}
+
+El ciclo de construir la respuesta tiene complejidad lineal $O(n)$, pero el ordenamiento como ya sabemos debemos declarar que sucede en tiempo $O(n \log n)$. A este problema se le conoce como el problema de la mochila fraccionaria.
+
+
+\section{Backtracking, programación dinámica y memoización}
+
+Existen ocasiones, donde la única manera de llegar a una solución es buscando entre todas las opciones posibles. La técnica de ``backtracking'' es una búsqueda exhaustiva pero ordenada de la solución. Por ejemplo dado un laberinto, encontrar el camino hacia la salida, en este caso ``backtracking'' avanzaría por los pasillos probando si alguno de ellos tiene un camino hacia la salida. Una optimización muy común para este tipo de problemas es agregar una memoria para así por lo menos no repetir pasillos ya visitados.
+Para realizar este tipo de algoritmos se necesita:
+
+\begin{itemize}
+    \item \textbf{Una condición final:} piensa en el subproblema mas pequeño en el que tu problema principal se puede dividir y codea como se resolvería.
+    \item \textbf{Subdivisión del problema:} piensa en como se reduciría el problema, por ejemplo dividir el laberinto en secciones y cada seccion tratarla como un laberinto a resolver. Manda a llamar a tu función principal recursivamente y guarda el resultado de esos subproblemas.
+    \item \textbf{Una memoria:} Una vez que tengas el problema base solucionado, piensa en que partes podrías agregar una memoria, para evitar calcular 2 veces el mismo dato.
+\end{itemize}
+
+
+\subsection{Encontrar el numero de islas}
+
+Supongamos que de entrada tenemos un array cuadrado (matriz) que solo contiene 0's y 1's. Los 0's representan el mar, y los 1's tierra firme, un pedazo de tierra se considera conectado con otro si y solo si el otro cacho de tierra esta a la izquierda, derecha, arriba o abajo del primero. A continuación se muestra un ejemplo de una matriz con 3 islas, las islas 2 y 3 a pesar de tocar la isla 1 de manera diagonal, se consideran islas independientes.
+
+\begin{equation}
+\begin{bmatrix}
+0 & 1 & 0 & 2\\
+1 & 1 & 1 &0\\
+0 & 1 & 1 & 0\\
+0 & 0 & 0 & 3\\
+\end{bmatrix}
+\end{equation}
+
+Utilizaremos memoisazion para resolver este problema.
+
+\begin{itemize}
+    \item \textbf{Una condición final:} Un 0 o un territorio ya visitado.
+    \item \textbf{Subdivisión del problema:} para este problema, lo primero que se nos ocurre es visitar cada punto de la matriz, si es un 0 lo ignoramos y si es un 1, significa que tocamos tierra y debemos revisar toda el area. Entonces tendremos una función que visite cada punto del mapa y cuando encuentre un territorio mande a llamar una función \textbf{explorarIsla} que visite toda esa area.
+    La función \textbf{explorarIsla} se puede dividir en 4 llamadas recursivas, es decir mandar a un explorador a visitar territorios arriba del punto de llegada, otro a explorar abajo, otro a la derecha y otro a la izquierda.
+    \item \textbf{Una memoria:} Para evitar que los exploradores visiten en el mismo lugar dos veces crearemos una matriz de memoria del mismo tamaño que nuestra matriz de entrada, para ahí guardar que puntos ya visitamos.
+\end{itemize}
+
+
+
+\begin{lstlisting}[language=JavaScript, caption=Contar islas]
+function revisaMapa(mapa, numRows, numColumns){
+    memoria = new Array(numRows);
+    for(let i=0; i< numRows;i++){
+        memoria[i] = new Array(numColumns)
+        for(let j=0;j< numColumns;j++){
+            memoria[i][j] = false;
+        }     
+    }
+    
+    let islasCount = 0;
+    for(let i=0; i< numRows;i++){
+        for(let j=0;j< numColumns;j++){
+            //Si es tierra firme y no lo hemos visitado explora la isla
+            if(mapa[i][j] == 1 && !memoria[i][j]){
+                exploraIsla(mapa,numRows, numColumns, i,j, memoria);
+                islasCount++;
+            }
+            memoria[i][j] = true;
+        }        
+    }
+    
+    return islasCount;
+}
+
+function exploraIsla(mapa,numRows, numColumns, i,j, memoria){
+    //Si ya lo visite o es mar entonces me voy
+    if(memoria[i][j] || mapa[i][j] == 0){
+        return;
+    }
+    
+    //Como ya voy a explorar el punto (i,j) lo marco como explorado
+    memoria[i][j] = true;
+    
+    //Exploro por abajo
+    if(i < numRows-1){
+        exploraIsla(mapa,numRows, numColumns, i+1,j, memoria)
+    }
+    
+    //Exploro por arriba
+    if(i > 0){
+        exploraIsla(mapa,numRows, numColumns, i-1,j, memoria)
+    }
+    
+    //Exploro por la derecha 
+    if(j < numColumns-1){
+        exploraIsla(mapa,numRows, numColumns, i,j+1, memoria)
+    }
+    
+    //Exploro por la izquierda
+    if(j > 0){
+        exploraIsla(mapa,numRows, numColumns, i,j-1, memoria)
+    }
+    
+    //Todas las condiciones anteriores son para verificar que no me salga
+    //de los bordes del mapa
+    
+    return;
+}
+\end{lstlisting}
+
+ La complejidad de este algoritmo es $O(numRows * numColumns)$, ya que gracias a la memoria solo se visita cada elemento de la matriz a lo mas 2 veces. 
