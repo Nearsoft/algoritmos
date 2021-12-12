@@ -24,6 +24,18 @@ Es importante enfatizar este aspecto sobre operaciones aritméticas y funciones 
  
  Por ejemplo, en la memoria alguien guarda $n$ números aleatorios y nos pide encontrar un numero arbitrario $k$. Entonces el programa más simple, sería comparar cada uno de esos números con respecto a $k$ hasta que lo encontremos. La lectura de cada numero de entrada nos llevara un pulso y la comparación con $k$ otro pulso es decir por cada numero de la entrada nuestro reloj deberá dar 2 pulsos. Por lo que para buscar el numero $k$, nuestro sistema usará $2n$ pulsos mas $c$ pulsos extra, por ejemplo código de inicialización que no se relaciona con la entrada. En este caso diremos que nuestro sistema toma $2n+c$ pulsos para dar una respuesta y su complejidad en tiempo es $O(n)$. 
  
+ \begin{lstlisting}[language=JavaScript, caption=Busca un elemento c]
+
+function search(arr,c){
+    for(let i=0;i<arr.length:i++){
+        if(arr[i] == c){
+            return i;
+        }
+    }
+    return -1;
+}
+\end{lstlisting}
+ 
 Como se vio en el ejemplo anterior, la notación Big O, solo representa de manera general como crece la complejidad y no la formula exacta de pulsos que nos toma ejecutar el programa. Para aclarar mas este punto, a continuación se ponen ejemplos de formulas especificas de pulsos de ejecución y como se representarían en notación Big O.
 
 \begin{itemize}

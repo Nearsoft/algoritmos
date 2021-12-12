@@ -59,9 +59,9 @@ function generateArray(k){
 }
 \end{lstlisting}
 
-\section{Listas}
+\section{Listas ligadas}
 
-Las listas son como arreglos pero no son lo mismo... usted me entiende. Una lista es un conjunto de datos, que pueden no ser vecinos. Usualmente cada nodo de una lista se compone de 2 datos, el valor que están guardando y la dirección de donde se encuentra el siguiente dato.
+Las listas son como arreglos pero no son lo mismo... usted me entiende. Una lista es un conjunto de datos, que pueden no ser vecinos en memoria. Usualmente cada nodo de una lista se compone de 2 datos, el valor que están guardando y la dirección en donde se encuentra el siguiente nodo.
 
 
 \begin{itemize}
@@ -72,7 +72,7 @@ Las listas son como arreglos pero no son lo mismo... usted me entiende. Una list
 \end{itemize}
 
 
-Suponiendo que tenemos una lista de $n$ datos, en todo momento solo tendremos solamente los nodos cabeza o cola disponible. Entonces si queremos acceder al $k$ dato tendremos que ir del primer dato, encontrar la dirección del segundo, ir al segundo, encontrar la dirección del tercero, y así hasta llegar al elemento deseado.
+Suponiendo que tenemos una lista de $n$ datos, en todo momento solo tendremos solamente los nodos cabeza o cola disponibles. Entonces si queremos acceder al $k$ dato tendremos que ir del primer dato, encontrar la dirección del segundo, ir al segundo, encontrar la dirección del tercero, y así hasta llegar al elemento deseado.
 
 \subsection{Ejercicios}
 
@@ -85,7 +85,7 @@ Suponiendo que tenemos una lista de $n$ datos, en todo momento solo tendremos so
 
 \section{Cadenas}
 
-Una de las estructuras que utilizamos diariamente son las cadenas de texto. En lenguajes como C, las cadenas son arrays de caracteres ascii, entonces por ejemplo comparar dos cadenas toma tiempo $O(m)$, donde $m$ es el tamaño de la cadena mas pequeña. Agregar datos era imposible, a menos que por nuestra cuenta implementáramos algo similar a un array dinamico. Es por esto que sin importar el lenguaje de tu preferencia debes familiarizarte con la implementación que el diseñador de ese lenguaje decidió para las cadenas.
+Una de las estructuras que utilizamos diariamente son las cadenas de texto. En lenguajes como C, las cadenas son arrays de caracteres ascii, entonces por ejemplo comparar dos cadenas toma tiempo $O(m)$, donde $m$ es el tamaño de la cadena mas pequeña. Agregar datos a una cadena en C era imposible, a menos que por nuestra cuenta implementáramos algo similar a un array dinamico. Es por esto que sin importar el lenguaje de tu preferencia debes familiarizarte con la implementación que el diseñador de ese lenguaje decidió para las cadenas.
 
 Por ejemplo, en Java si necesitas modificar una cadena de manera constante agregando nuevos caracteres, es recomendable usar la clase \textbf{StringBuilder}.
 
@@ -100,7 +100,7 @@ Por ejemplo, en Java si necesitas modificar una cadena de manera constante agreg
 \section{HashMaps o HashTables}
 
 Las HashTables son una estructura que guarda pares de datos, una llave y un valor. 
-Con la llave el usuario es capaz de buscar un dato y recuperarlo.
+Con la llave el usuario es capaz de buscar un dato y recuperarlo. 
 
 \begin{itemize}
     \item \textbf{Complejidad de lectura:} constante $O(1)$.
@@ -109,7 +109,7 @@ Con la llave el usuario es capaz de buscar un dato y recuperarlo.
     \item \textbf{Complejidad para borrar un nuevo elemento:} constante $O(1)$.
 \end{itemize}
 
-Un error muy común al utilizar HashTables es tratarlos como una panacea, e ignorar su funcionamiento interno. Por ejemplo, si nos piden encontrar con que frecuencia se repite cada letra en una cadena de entrada, es muy común recurrir de manera inmediata a los HashTables. Pero en esos casos es mas recomendable construir un diccionario con un array de datos de tamaño 26, que utilice cada letra como índice del array.
+Un error muy común al utilizar HashTables es tratarlos como una solucion universal, e ignorar su funcionamiento interno. Por ejemplo, si nos piden encontrar con que frecuencia se repite cada letra en una cadena de entrada, es muy común recurrir de manera inmediata a los HashTables. Pero en esos casos es mas recomendable construir un diccionario con un array de datos de tamaño 26, que utilice cada letra como índice del array.
 
 \begin{lstlisting}[language=C, caption=Diccionario sin hashtables]
 
@@ -130,7 +130,7 @@ void buildDiccionary(char cadena[], unsigned length){
 }
 \end{lstlisting}
 
-¿Por que es recomendable usar el método anterior, a utilizar un hashtable de manera inmediata?, bueno usualmente los HashTables difieren en su implementacion de acuerdo a la libreria y el lenguaje usado además de que hay complejidades ocultas. Por ejemplo, ¿cuanto tarda la función de hashing en generar el hash de cada llave?, ¿Que sucede en caso de colisión entre dos llaves con el mismo hash?. Usualmente esto no importa en nuestro día a día como ingenieros de software, pero las entrevistas algorítmicas buscan asegurarse que al menos el entrevistado este consiente de los compromisos que se hacen al utilizar estas estructuras.
+¿Por que es recomendable usar el método anterior, a utilizar un hashtable de manera inmediata?, bueno usualmente los HashTables difieren en su implementación de acuerdo a la librería y el lenguaje usado además de que hay complejidades ocultas. Por ejemplo, ¿cuanto tarda la función de hashing en generar el hash de cada llave?, ¿Que sucede en caso de colisión entre dos llaves con el mismo hash?. Usualmente esto no importa en nuestro día a día como ingenieros de software, pero las entrevistas algorítmicas buscan asegurarse que al menos el entrevistado este consiente de los compromisos que se hacen al utilizar estas estructuras.
 
 \subsection{Ejercicios}
 \begin{enumerate}
@@ -161,7 +161,7 @@ Los arboles son una estructura similar a las listas, solo que cada nodo puede te
 
 Los arboles son una estructura abstracta que puede representarse de muchas maneras dependiendo del lenguaje usado, las complejidades de escritura y lectura dependen del tipo de árbol.
 
-\section{Heaps y PriorityQueues}
+\section{Heaps}
 
 Los heaps, son arboles binarios, que en la raíz tienen a el elemento mas grande o mas pequeño dependiendo si es un max heap o un min heap respectivamente.
 
@@ -178,7 +178,7 @@ Este tipo de estructura es muy útil si queremos agregar datos y mantener siempr
 
 El algoritmo de ``heap sort'' \textbf{no} es un ordenamiento estable, es decir si tenemos los elementos $[3_1, 1_1,3_2]$ al ordenarlos, \textbf{no} respeta el orden de aparición de elementos iguales, $[1_1,3_2,3_1]$.
 
-El heapsort tiene complejidad $O(n log n)$ y la manera de implementarlo es la siguiente:
+El heapsort tiene complejidad $O(n \log n)$ y la manera de implementarlo es la siguiente:
 
 \begin{lstlisting}[language=JavaScript, caption=Heap sort]
 function minHeapify (arr, n, i) {
@@ -231,3 +231,10 @@ function minHeapify (arr, n, i) {
      } 
  }
 \end{lstlisting}
+
+\subsection{Ejercicios}
+
+\begin{enumerate}
+    \item Averigua si tu lenguaje favorito, tiene alguna librería que implemente heaps y busca acerca de su implementación interna.
+    \item El siguiente problema tiene varias soluciones pero una de ellas utiliza heaps, intenta llegar a la solución utilizando esta estructura: https://leetcode.com/problems/kth-largest-element-in-an-array/
+\end{enumerate}

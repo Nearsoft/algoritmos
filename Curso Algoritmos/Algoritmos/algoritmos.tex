@@ -2,7 +2,7 @@
 
 El propósito de este capitulo es ser una referencia rápida sobre algunas técnicas algorítmicas y sus complejidades.
 
-Antes de hablar sobre los algoritmos, me gustaría hacer un pequeño paréntesis para hablar de recursion. Usualmente es mal vista en la programación empresarial y es muy usada en la teoría de algoritmos. Para las entrevistas de algoritmos esta bien utilizarla, y siempre hay que recordar que todo algoritmo recursivo puede ser transformado en uno iterativo.
+Antes de hablar sobre los algoritmos, me gustaría hacer un pequeño paréntesis para hablar de recursion. Usualmente es mal vista en nuestro dia a dia como ingenieros de software pero es muy usada en la teoría de algoritmos. Para las entrevistas de algoritmos esta bien utilizarla, y siempre hay que recordar que todo algoritmo recursivo puede ser transformado en uno iterativo.
 
 \section{Técnica ``Divide y Venceras''}
 
@@ -108,7 +108,7 @@ function getHeight(raiz){
 
 \section{Técnica ``Greedy''}
 
-La técnica grredy se utiliza habitalmente para problemas en donde se quiere maximizar alguna variable. Por ejemplo eres un ladrón con una mochila que solo puede cargar 10kg de objetos y buscas meter a la mochila los objetos mas valiosos pero menos pesados. Los pasos para resolver problemas de este tipo son:
+La técnica grredy se utiliza habitalmente para problemas en donde se quiere maximizar alguna variable. Por ejemplo eres un ladrón con una mochila que solo puede cargar 10kg de metales y joyas, y buscas meter a la mochila los objetos mas valiosos pero menos pesados. Los pasos para resolver problemas de este tipo son:
 
 \begin{enumerate}
     \item Ordenar los datos de entrada.
@@ -120,7 +120,7 @@ La técnica grredy se utiliza habitalmente para problemas en donde se quiere max
 Supongamos tenemos una lista de fiestas, cada fiesta tiene una hora de inicio y una hora de fin. Queremos atender al mayor numero de fiestas sin que estas se traslapen. Entonces usaremos la técnica ``Greedy''.
 
 \begin{enumerate}
-    \item Ordenamos las fiestas de acuerdo a su hora de fin. Así asistimos a la fiesta que acabe mas temprano, lo nos deja mas tiempo para asistir a mas fiestas.
+    \item Ordenamos las fiestas de acuerdo a su hora de fin. Así asistimos a la fiesta que acabe mas temprano, lo nos deja mas tiempo para asistir a más fiestas.
     \item Agregamos la primer fiesta a la lista de fiestas que asistiremos. Verificamos que la segunda fiesta su hora de inicio no se traslape con la que acabamos de agregar, si se traslapa no la agregamos y si no se traslapa la agregamos. Y así sucesivamente con cada una, la vamos agregando con la condición de que no se traslape con la ultima que agregamos.
 \end{enumerate}
 
@@ -236,3 +236,162 @@ function exploraIsla(mapa,numRows, numColumns, i,j, memoria){
 \end{lstlisting}
 
  La complejidad de este algoritmo es $O(numRows * numColumns)$, ya que gracias a la memoria solo se visita cada elemento de la matriz a lo mas 2 veces. 
+ 
+  
+ \subsection{Subset sum}
+
+Dado un valor meta $v$ y un arreglo $A$ de $n$ números enteros positivos (no incluye al cero). Se desea saber si existe un subconjunto de números en $A$ tal que al sumarlos nos de como resultado $v$.
+
+A lo mejor se te viene a la mente algo como ordenar $A$ y buscar una manera que optimice la búsqueda de los números que suman $v$. Pero, te recomiendo empezar por el algoritmo mas sencillo y de fuerza bruta. Es decir, vamos a generar todos los subconjuntos posibles y sabremos si alguno suma $v$. Para cualquier arreglo de tamaño $n$ existen $2^n$ subconjuntos que se pueden formar.
+
+Nuestro algoritmo tomara un array por ejemplo $A=[1,5,3]$ y un valor $v=8$, primero tomara el $[1]$ y ahora tiene 2 opciones incluirlo o no incluirlo en un subconjunto de prueba, bueno pues tomamos ambos caminos ``chicle y pega'' uno de ellos. Luego entonces tenemos 2 casos, para cada uno de esos casos nos enfrentamos a una pregunta similar para el numero $[5]$, incluirlo o no, lo que nos da como resultado 4 casos y así hasta llegar al 3. Generando así los 8 subconjuntos $[]$,$[3]$,$[5]$,$[5,3]$,$[1]$,  $[1,3]$,$[1,5]$,$[1,5,3]$
+
+Para optimizar un poquitin,  cada que decidimos incluir un elemento en el subconjunto, le restamos a $v$ ese elemento, de esta manera sabemos que si llegamos a 0, es que existe un subconjunto que sumado da $v$.
+ 
+\begin{lstlisting}[language=Python, caption=Subset sum no optimo]
+def subsetSum(A,v,i):
+    if v == 0:
+        #Lo encontramos
+        return True
+    elif i >= len(A) or v < 0:
+        #Nos salimos del array o exedimos el valor de v
+        return False
+    else:
+        #Suponemos que incluimos el valor A[i]
+        #por esto lo restamos y llamamos recursivamente
+        incluye =  subsetSum(A,v-A[i],i+1)
+        
+        #Suponemos que no incluimos el valor A[i]
+        #llamamos recursivamente
+        no_incluye =  subsetSum(A,v,i+1)
+        
+        #Si alguna de las dos opciones crea un subconjunto
+        #cuya suma es v, entonces regresa true
+        #si no false
+        return incluye or no_incluye
+\end{lstlisting}
+
+Ahora que tenemos, una respuesta valida, procedemos a optimizarlo. Notemos que en algoritmo descrito $i$ puede variar desde 0 hasta $n$ y que a su vez $v$ puede tomar valores desde $v$ hasta $0$, aquí no tomamos en cuenta cuando $v < 0$ porque es un caso especial que se resuelve de manera rápida al inicio de la función. Por el hecho de que tenemos estas 2 variables ($v$ e $i$), asumimos que podemos tener cualquier combinación de ellas, entonces creamos una matriz $M$ de tamaño $n*v$, de esta manera nos ayudara recordar lo que ya calculamos.
+
+
+\begin{lstlisting}[language=Python, caption=Subset sum programacion dinamica]
+def subsetSumMem(A,v,i,M):
+    if v == 0:
+        #Lo encontramos
+        return True
+    elif i >= len(A) or v < 0:
+        #Nos salimos del array o exedimos el valor de v
+        return False
+    elif M[i][v] != None:
+        #Ya conocemos este resultado
+        return M[i][v]
+    else:
+        #Suponemos que incluimos el valor A[i]
+        #por esto lo restamos y llamamos recursivamente
+        incluye =  subsetSumMem(A,v-A[i],i+1,M)
+        
+        #Suponemos que no incluimos el valor A[i]
+        #llamamos recursivamente
+        no_incluye =  subsetSumMem(A,v,i+1,M)
+        
+        #Si alguna de las dos opciones crea un subconjunto
+        #cuya suma es v, entonces regresa true
+        #si no false
+        #guardamos el resultado en memoria
+        M[i][v] = incluye or no_incluye;
+        return M[i][v] 
+\end{lstlisting}
+ 
+ La complejidad del algoritmo anterior es $O(n*v)$, ya que como en realidad estamos llenando la matriz entonces la complejidad en tiempo y memoria son iguales. Ahora ¿cual complejidad es mejor $O(2^n)$ o $O(n*v)$?, bueno la respuesta es ``depende'' si la multiplicación de $n*v < 2^n$, entonces pues claro que optimizamos. Pero puede que $v=2^n$, por ejemplo un array de tamaño $n=3$ y $v=8$, en este caso el segundo algoritmo tardaría mas que el primero en darnos una respuesta. 
+ 
+ Ahora utilizando la matriz $M$ intenta reconstruir cual fue el subconjunto cuyos números al sumarlos dan como resultado $v$. Este algoritmo puede realizarse analizando los contenidos de $M$ y es lineal.
+ 
+ \subsection{Longest common substring}
+ 
+ Una subsecuencia es una cadena generada con elementos de la cadena original, de tal manera que no se ordene el orden original de la cadena. Ejemplos:
+ 
+ \begin{enumerate}
+     \item ``prro'' es una subsecuencia de ``aprrotraes''.
+     \item ``prroa'' \textbf{no} es una subsecuencia de ``aprro'', porque la letra ``a'' aparece en una posicion diferente a la cadena original.
+ \end{enumerate}
+ 
+ Dadas dos cadenas $A$ de tamaño $n$ y $B$ de tamaño $m$, se busca encontrar el tamaño de la subsequencia de elementos mas larga que ambas cadenas comparten. Este problema puede parecer, muy complicado en un inicio y podemos caer en el error de optimizarlo sin antes tener un algoritmo claro. Entonces, primero nos enfocaremos en encontrar una solución y la mas fácil es generar todas las subsequiencias posibles de la cadena $A$ y comparar cada una de esas subsequencias contra todas las subsequiencias posibles de la cadena $B$.
+ 
+\begin{lstlisting}[language=Java, caption=LCS no optimo]
+class Solution {
+    public int lcs(String text1, String text2) {
+        return lcsRecursive(text1,text2,0,0);
+        
+    }
+    
+    public int lcsRecursive(String text1, String text2,int i,int j) {
+        if(i >= text1.length() || j >= text2.length()){
+            return 0;
+        }
+        
+        if(text1.charAt(i) == text2.charAt(j)){
+            //Si los caracteres son iguales en esa posicion
+            //resuelvo para las subcadenas text1(i+1 : end) y text2(j+1 : end)
+            //y verifico que las subcadenas
+            return 1 + lcsRecursive(text1,text2,i+1,j+1);
+        } else {
+            //El camino 1 es generar todas las subcadenas de text1(i+1:end)
+            //y compararlas contra todas las subcadenas de text2(j:end)
+            int camino1 = lcsRecursive(text1,text2,i+1,j);
+            
+            //El camino 2 es generar todas las subcadenas de text2(j+1:end)
+            //y compararlas contra todas las subcadenas de text1(i:end)
+            int camino2 = lcsRecursive(text1,text2,i,j+1);
+            
+            //Encuentro cual fue la subcadena mas larga
+            return Math.max(camino1, camino2); 
+        }
+        
+    }
+}
+\end{lstlisting}
+
+El algoritmo de arriba parece sencillo pero su complejidad es $O(2^{n+m})$, antes de proceder con la optimización, tomate tu tiempo para ver como es que el algoritmo anterior genera todas las subsecuencias de ambas cadenas, puedes programarla y hacer que imprima text1 y text2 al inicio de la funcion.
+
+La optimización es similar a los problemas anteriores, como en una recursion de \textbf{lcsRecursive} lo único que varia es $i$ y $j$. Ademas, sabemos que $i$ puede tomar valores del $0$ al $n$ y $j$ del $0$ al $m$, entonces creamos una matriz de tamaño $n*m$ para así guardar los resultados ya calculados.
+
+
+\begin{lstlisting}[language=Java, caption=LCS optimo recursivo]
+class Solution {
+    public int lcs(String text1, String text2) {
+        Integer[][] M = new Integer[text1.length()][text2.length()];
+        return lcsMemoization(text1,text2,0,0,M);
+        
+    }
+    
+    public int lcsMemoization(String text1, String text2,int i,int j,Integer[][] M) {
+        if(i >= text1.length() || j >= text2.length()){
+            return 0;
+        } 
+        
+        if(M[i][j] != null){
+            //Significa que ya calcule este valor.
+            return M[i][j];
+        } else {
+            //No lo he calculado, el codigo es el mismo
+            //solo que cuando encuentro el resultado, lo guardo
+            if(text1.charAt(i) == text2.charAt(j)){
+                //Si los caracteres son iguales en esa posicion incremento en 1 mi resultado
+                //y verifico que las subcadenas
+                M[i][j] = 1 + lcsMemoization(text1,text2,i+1,j+1,M);
+            } else {
+                int camino1 = lcsMemoization(text1,text2,i+1,j,M);
+                int camino2 = lcsMemoization(text1,text2,i,j+1,M);
+                M[i][j] = Math.max(camino1, camino2); 
+            }
+            return M[i][j];
+        }
+        
+
+    }
+}
+\end{lstlisting}
+
+La complejidad del algoritmo anterior es $O(m*n)$, ya que como en realidad estamos llenando la matriz entonces la complejidad en tiempo y memoria son iguales. La mayoría de los ejercicios de programación dinámica siguen este mismo patrón, primero se crea una solución poco óptima y luego se optimiza utilizando una memoria.  
+
+ Ahora utilizando la matriz $M$ intenta reconstruir cual fue la subcadena mas larga. Este algoritmo puede realizarse analizando los contenidos de $M$ y es lineal.
