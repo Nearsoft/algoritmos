@@ -244,7 +244,7 @@ Dado un valor meta $v$ y un arreglo $A$ de $n$ números enteros positivos (no in
 
 A lo mejor se te viene a la mente algo como ordenar $A$ y buscar una manera que optimice la búsqueda de los números que suman $v$. Pero, te recomiendo empezar por el algoritmo mas sencillo y de fuerza bruta. Es decir, vamos a generar todos los subconjuntos posibles y sabremos si alguno suma $v$. Para cualquier arreglo de tamaño $n$ existen $2^n$ subconjuntos que se pueden formar.
 
-Nuestro algoritmo tomara un array por ejemplo $A=[1,5,3]$ y un valor $v=8$, primero tomara el $[1]$ y ahora tiene 2 opciones incluirlo o no incluirlo en un subconjunto de prueba, bueno pues tomamos ambos caminos ``chicle y pega'' uno de ellos. Luego entonces tenemos 2 casos, para cada uno de esos casos nos enfrentamos a una pregunta similar para el numero $[5]$, incluirlo o no, lo que nos da como resultado 4 casos y así hasta llegar al 3. Generando así los 8 subconjuntos $[]$,$[3]$,$[5]$,$[5,3]$,$[1]$,  $[1,3]$,$[1,5]$,$[1,5,3]$
+Nuestro algoritmo tomara un array por ejemplo $A=[1,5,3]$ y un valor $v=8$, primero tomara el $[1]$ y ahora tiene 2 opciones incluirlo o no incluirlo en un subconjunto de prueba, bueno pues tomamos ambos caminos ``chicle y pega'' uno de ellos. Luego nos enfrentamos a una pregunta similar para el numero $[5]$, incluirlo o no, lo que nos da como resultado 4 casos y así hasta llegar al 3. Generando así los 8 subconjuntos posibles $[]$,$[3]$,$[5]$,$[5,3]$,$[1]$,  $[1,3]$,$[1,5]$,$[1,5,3]$
 
 Para optimizar un poquitin,  cada que decidimos incluir un elemento en el subconjunto, le restamos a $v$ ese elemento, de esta manera sabemos que si llegamos a 0, es que existe un subconjunto que sumado da $v$.
  
@@ -271,7 +271,7 @@ def subsetSum(A,v,i):
         return incluye or no_incluye
 \end{lstlisting}
 
-Ahora que tenemos, una respuesta valida, procedemos a optimizarlo. Notemos que en algoritmo descrito $i$ puede variar desde 0 hasta $n$ y que a su vez $v$ puede tomar valores desde $v$ hasta $0$, aquí no tomamos en cuenta cuando $v < 0$ porque es un caso especial que se resuelve de manera rápida al inicio de la función. Por el hecho de que tenemos estas 2 variables ($v$ e $i$), asumimos que podemos tener cualquier combinación de ellas, entonces creamos una matriz $M$ de tamaño $n*v$, de esta manera nos ayudara recordar lo que ya calculamos.
+Ahora que tenemos, una respuesta valida, procedemos a optimizarlo. Notemos que en algoritmo descrito, $i$ puede variar desde 0 hasta $n$ y que a su vez $v$ puede tomar valores desde $v$ hasta $0$, aquí no tomamos en cuenta cuando $v < 0$ porque es un caso especial que se resuelve de manera rápida al inicio de la función. Por el hecho de que tenemos estas 2 variables ($v$ e $i$), asumimos que podemos tener cualquier combinación de ellas, entonces creamos una matriz $M$ de tamaño $n*v$, de esta manera nos ayudara recordar lo que ya calculamos.
 
 
 \begin{lstlisting}[language=Python, caption=Subset sum programacion dinamica]
@@ -302,9 +302,9 @@ def subsetSumMem(A,v,i,M):
         return M[i][v] 
 \end{lstlisting}
  
- La complejidad del algoritmo anterior es $O(n*v)$, ya que como en realidad estamos llenando la matriz entonces la complejidad en tiempo y memoria son iguales. Ahora ¿cual complejidad es mejor $O(2^n)$ o $O(n*v)$?, bueno la respuesta es ``depende'' si la multiplicación de $n*v < 2^n$, entonces pues claro que optimizamos. Pero puede que $v=2^n$, por ejemplo un array de tamaño $n=3$ y $v=8$, en este caso el segundo algoritmo tardaría mas que el primero en darnos una respuesta. 
+ La complejidad del algoritmo anterior es $O(n*v)$, ya que como en realidad estamos llenando la matriz entonces la complejidad en tiempo y memoria son iguales. Ahora ¿cual complejidad es mejor $O(2^n)$ o $O(n*v)$?, bueno la respuesta es ``depende'' si la multiplicación de $n*v < 2^n$, entonces pues claro que nos conviene $O(n*v)$. Pero puede que $v=2^n$, por ejemplo un array de tamaño $n=3$ y $v=8$, en este caso el segundo algoritmo tardaría mas que el primero en darnos una respuesta. 
  
- Ahora utilizando la matriz $M$ intenta reconstruir cual fue el subconjunto cuyos números al sumarlos dan como resultado $v$. Este algoritmo puede realizarse analizando los contenidos de $M$ y es lineal.
+ Ahora utilizando la matriz $M$ intenta reconstruir cual fue el subconjunto cuyos números al sumarlos dan como resultado $v$. Este algoritmo puede realizarse analizando el contenido de $M$ y es lineal en tiempo.
  
  \subsection{Longest common substring}
  
@@ -312,7 +312,7 @@ def subsetSumMem(A,v,i,M):
  
  \begin{enumerate}
      \item ``prro'' es una subsecuencia de ``aprrotraes''.
-     \item ``prroa'' \textbf{no} es una subsecuencia de ``aprro'', porque la letra ``a'' aparece en una posicion diferente a la cadena original.
+     \item ``prrob'' \textbf{no} es una subsecuencia de ``bprro'', porque la letra ``ab' aparece en una posicion diferente a la cadena original.
  \end{enumerate}
  
  Dadas dos cadenas $A$ de tamaño $n$ y $B$ de tamaño $m$, se busca encontrar el tamaño de la subsequencia de elementos mas larga que ambas cadenas comparten. Este problema puede parecer, muy complicado en un inicio y podemos caer en el error de optimizarlo sin antes tener un algoritmo claro. Entonces, primero nos enfocaremos en encontrar una solución y la mas fácil es generar todas las subsequiencias posibles de la cadena $A$ y comparar cada una de esas subsequencias contra todas las subsequiencias posibles de la cadena $B$.
