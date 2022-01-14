@@ -1,16 +1,16 @@
 \chapter{Algoritmos}
 
-El propósito de este capitulo es ser una referencia rápida sobre algunas técnicas algorítmicas y sus complejidades.
+El propósito de este capítulo es ser una referencia rápida sobre algunas técnicas algorítmicas y sus complejidades.
 
-Antes de hablar sobre los algoritmos, me gustaría hacer un pequeño paréntesis para hablar de recursion. Usualmente es mal vista en nuestro dia a dia como ingenieros de software pero es muy usada en la teoría de algoritmos. Para las entrevistas de algoritmos esta bien utilizarla, y siempre hay que recordar que todo algoritmo recursivo puede ser transformado en uno iterativo.
+Antes de hablar sobre los algoritmos, me gustaría hacer un pequeño paréntesis para hablar de recursión. Usualmente es mal vista en nuestro día a día como ingenieros de software, pero es muy usada en la teoría de algoritmos. Para las entrevistas de algoritmos está bien utilizarla, y siempre hay que recordar que todo algoritmo recursivo puede ser transformado en uno iterativo.
 
 \section{Técnica ``Divide y Venceras''}
 
-La técnica ``Divide y Venceras'' consiste en dividir un problema en subproblemas mas pequeños y luego juntar las respuestas arrojadas por cada subproblema para así obtener la respuesta final. Los ingredientes para un algoritmo divide y veceras son:
+La técnica ``Divide y Venceras'' consiste en dividir un problema en subproblemas más pequeños y luego juntar las respuestas arrojadas por cada subproblema para así obtener la respuesta final. Los ingredientes para un algoritmo divide y veceras son:
 
 \begin{itemize}
-    \item \textbf{Una condición final:} piensa en el subproblema mas pequeño en el que tu problema principal se puede dividir y codea como se resolvería.
-    \item \textbf{Subdivisión del problema:} piensa en como se dividirá el problema, puede ser a la mitad, o en múltiples cachitos. Manda a llamar a tu función principal recursivamente y guarda el resultado de esos subproblemas.
+    \item \textbf{Una condición final:} piensa en el subproblema más pequeño en el que tu problema principal se puede dividir y codea como se resolvería.
+    \item \textbf{Subdivisión del problema:} piensa en cómo se dividirá el problema, puede ser a la mitad, o en múltiples cachitos. Manda a llamar a tu función principal recursivamente y guarda el resultado de esos subproblemas.
     \item \textbf{Una función de merge:} piensa como esas soluciones individuales se relacionan y crea una función que obtenga el resultado unificado.
 \end{itemize}
 
@@ -23,12 +23,12 @@ El algoritmo de ``merge sort'' es un ordenamiento estable, es decir si tenemos l
 Veamos, este proceso en acción con el algoritmo de ordenamiento. 
 
 \begin{itemize}
-    \item \textbf{Una condición final:} un único numero $a$ se considera ordenado, entonces lo regresamos como resultado.
+    \item \textbf{Una condición final:} un único número se considera ordenado, entonces lo regresamos como resultado.
     \item \textbf{Subdivisión del problema:} la entrada seguramente será un array de números,  entonces dividimos al problema en 2 cachos. Uno del inicio a la mitad y otro de la mitad al final del array. Y nos enfocamos solo a ordenar cada mitad por separado.
     \item \textbf{Una función de merge:} suponiendo que tengo dos números $a$ y $b$, la forma de ``mergearlos'' en un array ordenado, es comparar $a$ con $b$ y guardar el mas pequeño primero y el mas grande después. 
 \end{itemize}
 
-A continuación se observa un ejemplo de funcion mergeSort escrita en Python:
+A continuación, se observa un ejemplo de función mergeSort escrita en Python:
 \begin{lstlisting}[language=Python, caption=Merge sort]
 def mergeSort(arr):
     #Aqui el caso base si len(arr) == 1, no hace nada porque
@@ -73,12 +73,12 @@ Es importante recordar el algoritmo de merge sort ya que es utilizando en alguna
 
 \subsection{Altura de un arbol}
 
-La altura de un árbol es el numero de nodos que hay desde la raiz, hasta el hijo mas alejado. Para obtener la altura de un árbol podemos utilizar la tecnica de ``divide y venceras''. 
+La altura de un árbol es el número de nodos que hay desde la raiz, hasta el hijo más alejado. Para obtener la altura de un árbol podemos utilizar la tecnica de ``divide y venceras''. 
 
 \begin{itemize}
     \item \textbf{Una condición final:} un único nodo $a$ tiene altura cero.
     \item \textbf{Subdivisión del problema:} un nodo raíz de un árbol puede tener múltiples hijos, puedo encontrar la altura de todos ellos llamando recursivamente a la funcion principal.
-    \item \textbf{Una función de merge:} necesito la altura del hijo mas alto, entonces utilizo una función max para encontrar al hijo mas alto, y a su altura le sumo 1 (el nodo raiz). 
+    \item \textbf{Una función de merge:} necesito la altura del hijo mas alto, entonces utilizo una función max para encontrar al hijo más alto, y a su altura le sumo 1 (el nodo raiz). 
 \end{itemize}
 
 
@@ -108,20 +108,20 @@ function getHeight(raiz){
 
 \section{Técnica ``Greedy''}
 
-La técnica grredy se utiliza habitalmente para problemas en donde se quiere maximizar alguna variable. Por ejemplo eres un ladrón con una mochila que solo puede cargar 10kg de metales y joyas, y buscas meter a la mochila los objetos mas valiosos pero menos pesados. Los pasos para resolver problemas de este tipo son:
+La técnica grredy se utiliza habitualmente para problemas en donde se quiere maximizar alguna variable. Por ejemplo, eres un ladrón con una mochila que solo puede cargar 10kg de metales y joyas, y buscas meter a la mochila los objetos más valiosos pero menos pesados. Los pasos para resolver problemas de este tipo son:
 
 \begin{enumerate}
     \item Ordenar los datos de entrada.
-    \item Meter el primer dato a la solución, verificar que no se exceda el limite dado o cualquier otra condición y continuar así por cada elemento hasta que tengamos la solución.
+    \item Meter el primer dato a la solución, verificar que no se exceda el límite dado o cualquier otra condición y continuar así por cada elemento hasta que tengamos la solución.
 \end{enumerate}
 
 \subsection{Organizar fiestas}
 
-Supongamos tenemos una lista de fiestas, cada fiesta tiene una hora de inicio y una hora de fin. Queremos atender al mayor numero de fiestas sin que estas se traslapen. Entonces usaremos la técnica ``Greedy''.
+Supongamos tenemos una lista de fiestas, cada fiesta tiene una hora de inicio y una hora de fin. Queremos atender al mayor número de fiestas sin que estas se traslapen. Entonces usaremos la técnica ``Greedy''.
 
 \begin{enumerate}
-    \item Ordenamos las fiestas de acuerdo a su hora de fin. Así asistimos a la fiesta que acabe mas temprano, lo nos deja mas tiempo para asistir a más fiestas.
-    \item Agregamos la primer fiesta a la lista de fiestas que asistiremos. Verificamos que la segunda fiesta su hora de inicio no se traslape con la que acabamos de agregar, si se traslapa no la agregamos y si no se traslapa la agregamos. Y así sucesivamente con cada una, la vamos agregando con la condición de que no se traslape con la ultima que agregamos.
+    \item Ordenamos las fiestas de acuerdo a su hora de fin. Así asistimos a la fiesta que acabe más temprano, lo nos deja más tiempo para asistir a más fiestas.
+    \item Agregamos la primera fiesta a la lista de fiestas que asistiremos. Verificamos que la segunda fiesta su hora de inicio no se traslape con la que acabamos de agregar, si se traslapa no la agregamos y si no se traslapa la agregamos. Y así sucesivamente con cada una, la vamos agregando con la condición de que no se traslape con la última que agregamos.
 \end{enumerate}
 
 Como vemos, el ciclo de construir la respuesta tiene complejidad lineal $O(n)$, pero el ordenamiento como ya sabemos debemos declarar que sucede en tiempo $O(n \log n)$.
@@ -140,19 +140,19 @@ El ciclo de construir la respuesta tiene complejidad lineal $O(n)$, pero el orde
 
 \section{Backtracking, programación dinámica y memoización}
 
-Existen ocasiones, donde la única manera de llegar a una solución es buscando entre todas las opciones posibles. La técnica de ``backtracking'' es una búsqueda exhaustiva pero ordenada de la solución. Por ejemplo dado un laberinto, encontrar el camino hacia la salida, en este caso ``backtracking'' avanzaría por los pasillos probando si alguno de ellos tiene un camino hacia la salida. Una optimización muy común para este tipo de problemas es agregar una memoria para así por lo menos no repetir pasillos ya visitados.
+Existen ocasiones, donde la única manera de llegar a una solución es buscando entre todas las opciones posibles. La técnica de ``backtracking'' es una búsqueda exhaustiva pero ordenada de la solución. Por ejemplo, dado un laberinto, encontrar el camino hacia la salida, en este caso ``backtracking'' avanzaría por los pasillos probando si alguno de ellos tiene un camino hacia la salida. Una optimización muy común para este tipo de problemas es agregar una memoria para así por lo menos no repetir pasillos ya visitados.
 Para realizar este tipo de algoritmos se necesita:
 
 \begin{itemize}
-    \item \textbf{Una condición final:} piensa en el subproblema mas pequeño en el que tu problema principal se puede dividir y codea como se resolvería.
-    \item \textbf{Subdivisión del problema:} piensa en como se reduciría el problema, por ejemplo dividir el laberinto en secciones y cada seccion tratarla como un laberinto a resolver. Manda a llamar a tu función principal recursivamente y guarda el resultado de esos subproblemas.
+    \item \textbf{Una condición final:} piensa en el subproblema más pequeño en el que tu problema principal se puede dividir y codea como se resolvería.
+    \item \textbf{Subdivisión del problema:} piensa en cómo se reduciría el problema, por ejemplo dividir el laberinto en secciones y cada seccion tratarla como un laberinto a resolver. Manda a llamar a tu función principal recursivamente y guarda el resultado de esos subproblemas.
     \item \textbf{Una memoria:} Una vez que tengas el problema base solucionado, piensa en que partes podrías agregar una memoria, para evitar calcular 2 veces el mismo dato.
 \end{itemize}
 
 
-\subsection{Encontrar el numero de islas}
+\subsection{Encontrar el número de islas}
 
-Supongamos que de entrada tenemos un array cuadrado (matriz) que solo contiene 0's y 1's. Los 0's representan el mar, y los 1's tierra firme, un pedazo de tierra se considera conectado con otro si y solo si el otro cacho de tierra esta a la izquierda, derecha, arriba o abajo del primero. A continuación se muestra un ejemplo de una matriz con 3 islas, las islas 2 y 3 a pesar de tocar la isla 1 de manera diagonal, se consideran islas independientes.
+Supongamos que de entrada tenemos un array cuadrado (matriz) que solo contiene 0's y 1's. Los 0's representan el mar, y los 1's tierra firme, un pedazo de tierra se considera conectado con otro si y solo si el otro cacho de tierra está a la izquierda, derecha, arriba o abajo del primero. A continuación, se muestra un ejemplo de una matriz con 3 islas, las islas 2 y 3 a pesar de tocar la isla 1 de manera diagonal, se consideran islas independientes.
 
 \begin{equation}
 \begin{bmatrix}
@@ -235,18 +235,18 @@ function exploraIsla(mapa,numRows, numColumns, i,j, memoria){
 }
 \end{lstlisting}
 
- La complejidad de este algoritmo es $O(numRows * numColumns)$, ya que gracias a la memoria solo se visita cada elemento de la matriz a lo mas 2 veces. 
+ La complejidad de este algoritmo es $O(numRows * numColumns)$, ya que gracias a la memoria solo se visita cada elemento de la matriz a lo más 2 veces. 
  
   
  \subsection{Subset sum}
 
-Dado un valor meta $v$ y un arreglo $A$ de $n$ números enteros positivos (no incluye al cero). Se desea saber si existe un subconjunto de números en $A$ tal que al sumarlos nos de como resultado $v$.
+Dado un valor meta $v$ y un arreglo $A$ de $n$ números enteros positivos (no incluye al cero). Se desea saber si existe un subconjunto de números en $A$ tal que al sumarlos nos dé como resultado $v$.
 
-A lo mejor se te viene a la mente algo como ordenar $A$ y buscar una manera que optimice la búsqueda de los números que suman $v$. Pero, te recomiendo empezar por el algoritmo mas sencillo y de fuerza bruta. Es decir, vamos a generar todos los subconjuntos posibles y sabremos si alguno suma $v$. Para cualquier arreglo de tamaño $n$ existen $2^n$ subconjuntos que se pueden formar.
+A lo mejor se te viene a la mente algo como ordenar $A$ y buscar una manera que optimice la búsqueda de los números que suman $v$. Pero, te recomiendo empezar por el algoritmo más sencillo y de fuerza bruta. Es decir, vamos a generar todos los subconjuntos posibles y sabremos si alguno suma $v$. Para cualquier arreglo de tamaño $n$ existen $2^n$ subconjuntos que se pueden formar.
 
 Nuestro algoritmo tomara un array por ejemplo $A=[1,5,3]$ y un valor $v=8$, primero tomara el $[1]$ y ahora tiene 2 opciones incluirlo o no incluirlo en un subconjunto de prueba, bueno pues tomamos ambos caminos ``chicle y pega'' uno de ellos. Luego nos enfrentamos a una pregunta similar para el numero $[5]$, incluirlo o no, lo que nos da como resultado 4 casos y así hasta llegar al 3. Generando así los 8 subconjuntos posibles $[]$,$[3]$,$[5]$,$[5,3]$,$[1]$,  $[1,3]$,$[1,5]$,$[1,5,3]$
 
-Para optimizar un poquitin,  cada que decidimos incluir un elemento en el subconjunto, le restamos a $v$ ese elemento, de esta manera sabemos que si llegamos a 0, es que existe un subconjunto que sumado da $v$.
+Para optimizar un poquitin, cada que decidimos incluir un elemento en el subconjunto, le restamos a $v$ ese elemento, de esta manera sabemos que si llegamos a 0, es que existe un subconjunto que sumado da $v$.
  
 \begin{lstlisting}[language=Python, caption=Subset sum no optimo]
 def subsetSum(A,v,i):
@@ -271,7 +271,7 @@ def subsetSum(A,v,i):
         return incluye or no_incluye
 \end{lstlisting}
 
-Ahora que tenemos, una respuesta valida, procedemos a optimizarlo. Notemos que en algoritmo descrito, $i$ puede variar desde 0 hasta $n$ y que a su vez $v$ puede tomar valores desde $v$ hasta $0$, aquí no tomamos en cuenta cuando $v < 0$ porque es un caso especial que se resuelve de manera rápida al inicio de la función. Por el hecho de que tenemos estas 2 variables ($v$ e $i$), asumimos que podemos tener cualquier combinación de ellas, entonces creamos una matriz $M$ de tamaño $n*v$, de esta manera nos ayudara recordar lo que ya calculamos.
+Ahora que tenemos, una respuesta valida, procedemos a optimizarlo. Notemos que, en el algoritmo descrito, $i$ puede variar desde 0 hasta $n$ y que a su vez $v$ puede tomar valores desde $0$ hasta $v$, aquí no tomamos en cuenta cuando $v < 0$ porque es un caso especial que se resuelve de manera rápida al inicio de la función. Por el hecho de que tenemos estas 2 variables ($v$ e $i$), asumimos que podemos tener cualquier combinación de ellas, entonces creamos una matriz $M$ de tamaño $n*v$, de esta manera nos ayudará recordar lo que ya calculamos.
 
 
 \begin{lstlisting}[language=Python, caption=Subset sum programacion dinamica]
@@ -302,20 +302,20 @@ def subsetSumMem(A,v,i,M):
         return M[i][v] 
 \end{lstlisting}
  
- La complejidad del algoritmo anterior es $O(n*v)$, ya que como en realidad estamos llenando la matriz entonces la complejidad en tiempo y memoria son iguales. Ahora ¿cual complejidad es mejor $O(2^n)$ o $O(n*v)$?, bueno la respuesta es ``depende'' si la multiplicación de $n*v < 2^n$, entonces pues claro que nos conviene $O(n*v)$. Pero puede que $v=2^n$, por ejemplo un array de tamaño $n=3$ y $v=8$, en este caso el segundo algoritmo tardaría mas que el primero en darnos una respuesta. 
+ La complejidad del algoritmo anterior es $O(n*v)$, ya que como en realidad estamos llenando la matriz entonces la complejidad en tiempo y memoria son iguales. Ahora ¿cuál complejidad es mejor $O(2^n)$ o $O(n*v)$?, bueno la respuesta es ``depende'' si la multiplicación de $n*v < 2^n$, entonces pues claro que nos conviene $O(n*v)$. Pero puede que $v=2^n$, por ejemplo, un array de tamaño $n=3$ y $v=8$, en este caso el segundo algoritmo tardaría más que el primero en darnos una respuesta. 
  
  Ahora utilizando la matriz $M$ intenta reconstruir cual fue el subconjunto cuyos números al sumarlos dan como resultado $v$. Este algoritmo puede realizarse analizando el contenido de $M$ y es lineal en tiempo.
  
  \subsection{Longest common substring}
  
- Una subsecuencia es una cadena generada con elementos de la cadena original, de tal manera que no se ordene el orden original de la cadena. Ejemplos:
+ Una subsecuencia es una cadena generada con elementos de la cadena original, de tal manera que no se altere el orden original de la cadena. Ejemplos:
  
  \begin{enumerate}
      \item ``prro'' es una subsecuencia de ``aprrotraes''.
-     \item ``prrob'' \textbf{no} es una subsecuencia de ``bprro'', porque la letra ``ab' aparece en una posicion diferente a la cadena original.
+     \item ``prrob'' \textbf{no} es una subsecuencia de ``bprro'', porque la letra ``b'' aparece en una posicion diferente a la cadena original.
  \end{enumerate}
  
- Dadas dos cadenas $A$ de tamaño $n$ y $B$ de tamaño $m$, se busca encontrar el tamaño de la subsequencia de elementos mas larga que ambas cadenas comparten. Este problema puede parecer, muy complicado en un inicio y podemos caer en el error de optimizarlo sin antes tener un algoritmo claro. Entonces, primero nos enfocaremos en encontrar una solución y la mas fácil es generar todas las subsequiencias posibles de la cadena $A$ y comparar cada una de esas subsequencias contra todas las subsequiencias posibles de la cadena $B$.
+ Dadas dos cadenas $A$ de tamaño $n$ y $B$ de tamaño $m$, se busca encontrar el tamaño de la subsequencia de elementos mas larga que ambas cadenas comparten. Este problema puede parecer, muy complicado en un inicio y podemos caer en el error de optimizarlo sin antes tener un algoritmo claro. Entonces, primero nos enfocaremos en encontrar una solución y la más fácil es generar todas las subsequiencias posibles de la cadena $A$ y comparar cada una de esas subsequencias contra todas las subsequiencias posibles de la cadena $B$.
  
 \begin{lstlisting}[language=Java, caption=LCS no optimo]
 class Solution {
@@ -351,9 +351,9 @@ class Solution {
 }
 \end{lstlisting}
 
-El algoritmo de arriba parece sencillo pero su complejidad es $O(2^{n+m})$, antes de proceder con la optimización, tomate tu tiempo para ver como es que el algoritmo anterior genera todas las subsecuencias de ambas cadenas, puedes programarla y hacer que imprima text1 y text2 al inicio de la funcion.
+El algoritmo de arriba parece sencillo pero su complejidad es $O(2^{n+m})$, antes de proceder con la optimización, tomate tu tiempo para ver cómo es que el algoritmo anterior genera todas las subsecuencias de ambas cadenas, puedes programarla y hacer que imprima text1 y text2 al inicio de la funcion.
 
-La optimización es similar a los problemas anteriores, como en una recursion de \textbf{lcsRecursive} lo único que varia es $i$ y $j$. Ademas, sabemos que $i$ puede tomar valores del $0$ al $n$ y $j$ del $0$ al $m$, entonces creamos una matriz de tamaño $n*m$ para así guardar los resultados ya calculados.
+La optimización es similar a los problemas anteriores, como en una recursión de \textbf{lcsRecursive} lo único que varía es $i$ y $j$.  Además, sabemos que $i$ puede tomar valores del $0$ al $n$ y $j$ del $0$ al $m$, entonces creamos una matriz de tamaño $n*m$ para así guardar los resultados ya calculados.
 
 
 \begin{lstlisting}[language=Java, caption=LCS optimo recursivo]
@@ -394,4 +394,4 @@ class Solution {
 
 La complejidad del algoritmo anterior es $O(m*n)$, ya que como en realidad estamos llenando la matriz entonces la complejidad en tiempo y memoria son iguales. La mayoría de los ejercicios de programación dinámica siguen este mismo patrón, primero se crea una solución poco óptima y luego se optimiza utilizando una memoria.  
 
- Ahora utilizando la matriz $M$ intenta reconstruir cual fue la subcadena mas larga. Este algoritmo puede realizarse analizando los contenidos de $M$ y es lineal.
+ Ahora utilizando la matriz $M$ intenta reconstruir cual fue la subcadena más larga. Este algoritmo puede realizarse analizando los contenidos de $M$ y es lineal.

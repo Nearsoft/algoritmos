@@ -1,32 +1,32 @@
 \chapter{Estructuras de datos}
 
-El propósito de este capitulo es ser una referencia rápida sobre las estructuras de datos, sus complejidades de operación y algunos casos de uso. 
+El propósito de este capítulo es ser una referencia rápida sobre las estructuras de datos, sus complejidades de operación y algunos casos de uso. 
 
 \section{Arreglos, arrays pa los cuates}
 
-Los arrays, son un conjunto de datos del mismo tipo, que ocupan espacio contiguo en memoria. Los aspectos importantes a recordar son:
+Los arrays, son un conjunto de datos del mismo tipo, que ocupan espacio contiguo en memoria. Los aspectos importantes para recordar son:
 
 \begin{itemize}
     \item \textbf{Complejidad de lectura:} constante $O(1)$.
     \item \textbf{Complejidad de escritura:} constante $O(1)$.
-    \item \textbf{Complejidad para agregar un nuevo elemento:} no se puede.
-    \item \textbf{Complejidad para borrar un nuevo elemento:} no se puede.
+    \item \textbf{Complejidad para agregar un elemento:} no se puede.
+    \item \textbf{Complejidad para borrar un elemento:} no se puede.
 \end{itemize}
 
-Como los arrays son un arreglo de datos contiguos en memoria, es imposible saber si tienen como vecinos en memoria a datos validos o espacios vacios, es por esto que hacer crecer un arreglo declarado originalmente de tamaño 5 a tamaño 6, es imposible.
+Como los arrays son un arreglo de datos contiguos en memoria, es imposible saber si tienen como vecinos en memoria a datos validos o espacios vacíos, es por esto que hacer crecer un arreglo declarado originalmente de tamaño 5 a tamaño 6, es imposible.
 
 \section{Arreglos dinámicos, ArrayList pa los javeros}
 
-Los arrays dinámicos son los mas comunes en los lenguajes modernos de programacion y son similares a los arrays originales, solamente que estos permiten agregar nuevos elementos y así incrementar la capacidad del array.
+Los arrays dinámicos son los más comunes en los lenguajes modernos de programación y son similares a los arrays originales, solamente que estos permiten agregar nuevos elementos y así incrementar la capacidad del array.
 
 \begin{itemize}
     \item \textbf{Complejidad de lectura:} constante $O(1)$.
     \item \textbf{Complejidad de escritura:} constante $O(1)$.
-    \item \textbf{Complejidad para agregar un nuevo elemento:} En el mejor de los casos es constante $O(1)$ en el peor de los casos es lineal $O(n)$.
-    \item \textbf{Complejidad para borrar un nuevo elemento:} constante $O(1)$.
+    \item \textbf{Complejidad para agregar un elemento:} En el mejor de los casos es constante $O(1)$ en el peor de los casos es lineal $O(n)$.
+    \item \textbf{Complejidad para borrar un elemento:} constante $O(1)$.
 \end{itemize}
 
-En estos arreglos, al agregar un elemento corremos el riesgo de que nuestro sistema tenga que reubicar los datos ya existentes. Por ejemplo si iniciamos reservando 5 espacios de memoria, que llenamos con 5 letras y luego queremos agregar una sexta letra, puede que el lugar este ocupado. Por lo que el sistema deberá reubicar las 5 letras ya existentes y además poner al lado de ellas la sexta letra. Este proceso conlleva buscar al menos 6 espacios libres contiguos en memoria, copiar las 5 letras existentes y colocar la sexta letra. 
+En estos arreglos, al agregar un elemento corremos el riesgo de que nuestro sistema tenga que reubicar los datos ya existentes. Por ejemplo, si iniciamos reservando 5 espacios de memoria, que llenamos con 5 letras y luego queremos agregar una sexta letra, puede que el lugar este ocupado. Por lo que el sistema deberá reubicar las 5 letras ya existentes y además poner al lado de ellas la sexta letra. Este proceso conlleva buscar al menos 6 espacios libres contiguos en memoria, copiar las 5 letras existentes y colocar la sexta letra. 
 
 Usualmente este tipo de estructura tiene un default de lugares ``apartados'' y cada que se excede su capacidad busca el doble de la capacidad actual, de esta manera evita que el costo de reubicación ocurra seguido. 
 
@@ -43,7 +43,7 @@ function generateArray(k){
 }
 \end{lstlisting}
 
-\textbf{arr} es un array dinámico, supongamos que inicialmente tiene capacidad 0 y que la función \textbf{push} no esta optimizada. Entonces la primera vez que ejecutamos \textbf{push}, el sistema tendrá que buscar 1 espacio libre para el primer dato. Luego en el segundo ciclo se tendrán que buscar 2 espacios libres y copiar el dato ya existente. Para el tercer ciclo se tendrán que buscar 3 espacios libres y copiar los 2 datos ya existentes. El numero de pulsos usados por \textbf{push} va creciendo de la siguiente manera con cada iteración $1,2,3,\dots,k$. Si sumamos el numero de pulsos usados en cada iteración, al final de ciclo nos daremos cuenta que $1+2+3+\dots+k = \frac{k(k+1)}{2}$, es decir nuestro algoritmo tiene una complejidad cuadrática $O(k^2)$. 
+\textbf{arr} es un array dinámico, supongamos que inicialmente tiene capacidad 0 y que la función \textbf{push} no esta optimizada. Entonces la primera vez que ejecutamos \textbf{push}, el sistema tendrá que buscar 1 espacio libre para el primer dato. Luego en el segundo ciclo se tendrán que buscar 2 espacios libres y copiar el dato ya existente. Para el tercer ciclo se tendrán que buscar 3 espacios libres y copiar los 2 datos ya existentes. El número de pulsos usados por \textbf{push} va creciendo de la siguiente manera con cada iteración $1,2,3,\dots,k$. Si sumamos el número de pulsos usados en cada iteración, al final de ciclo nos daremos cuenta que $1+2+3+\dots+k = \frac{k(k+1)}{2}$, es decir nuestro algoritmo tiene una complejidad cuadrática $O(k^2)$. 
 
 Por esto en nuestras entrevistas de algoritmos hay que tener en cuenta como manejamos este tipo de estructuras, es recomendable declarar el array dinámico con la capacidad final en caso de que la conozcamos. Esto reduciría la complejidad de función anterior de $O(k^2)$ a $O(k)$.
 
@@ -61,14 +61,14 @@ function generateArray(k){
 
 \section{Listas ligadas}
 
-Las listas son como arreglos pero no son lo mismo... usted me entiende. Una lista es un conjunto de datos, que pueden no ser vecinos en memoria. Usualmente cada nodo de una lista se compone de 2 datos, el valor que están guardando y la dirección en donde se encuentra el siguiente nodo.
+Las listas son como arrays pero no son lo mismo... usted me entiende. Una lista es un conjunto de datos, que pueden no ser vecinos en memoria. Usualmente cada nodo de una lista se compone de 2 datos, el valor que están guardando y la dirección en donde se encuentra el siguiente nodo.
 
 
 \begin{itemize}
     \item \textbf{Complejidad de lectura:} lineal $O(n)$.
     \item \textbf{Complejidad de escritura:} lineal $O(n)$.
-    \item \textbf{Complejidad para agregar un nuevo elemento:} constante $O(1)$.
-    \item \textbf{Complejidad para borrar un nuevo elemento:} constante $O(1)$.
+    \item \textbf{Complejidad para agregar un elemento:} constante $O(1)$.
+    \item \textbf{Complejidad para borrar un elemento:} constante $O(1)$.
 \end{itemize}
 
 
@@ -85,7 +85,7 @@ Suponiendo que tenemos una lista de $n$ datos, en todo momento solo tendremos so
 
 \section{Cadenas}
 
-Una de las estructuras que utilizamos diariamente son las cadenas de texto. En lenguajes como C, las cadenas son arrays de caracteres ascii, entonces por ejemplo comparar dos cadenas toma tiempo $O(m)$, donde $m$ es el tamaño de la cadena mas pequeña. Agregar datos a una cadena en C era imposible, a menos que por nuestra cuenta implementáramos algo similar a un array dinamico. Es por esto que sin importar el lenguaje de tu preferencia debes familiarizarte con la implementación que el diseñador de ese lenguaje decidió para las cadenas.
+Una de las estructuras que utilizamos diariamente son las cadenas de texto. En lenguajes como C, las cadenas son arrays de caracteres ascii. Entonces comparar dos cadenas toma tiempo $O(m)$, donde $m$ es el tamaño de la cadena más pequeña. Agregar datos a una cadena en C era imposible, a menos que por nuestra cuenta implementáramos algo similar a un array dinámico. Sin importar el lenguaje de tu preferencia, debes familiarizarte con la implementación que el diseñador de ese lenguaje decidió para las cadenas.
 
 Por ejemplo, en Java si necesitas modificar una cadena de manera constante agregando nuevos caracteres, es recomendable usar la clase \textbf{StringBuilder}.
 
@@ -109,7 +109,7 @@ Con la llave el usuario es capaz de buscar un dato y recuperarlo.
     \item \textbf{Complejidad para borrar un nuevo elemento:} constante $O(1)$.
 \end{itemize}
 
-Un error muy común al utilizar HashTables es tratarlos como una solucion universal, e ignorar su funcionamiento interno. Por ejemplo, si nos piden encontrar con que frecuencia se repite cada letra en una cadena de entrada, es muy común recurrir de manera inmediata a los HashTables. Pero en esos casos es mas recomendable construir un diccionario con un array de datos de tamaño 26, que utilice cada letra como índice del array.
+Un error muy común al utilizar HashTables es tratarlos como una solucion universal, e ignorar su funcionamiento interno. Por ejemplo, si nos piden encontrar con qué frecuencia se repite cada letra en una cadena de entrada, es muy común recurrir de manera inmediata a los HashTables. Pero en esos casos es más recomendable construir un diccionario con un array de datos de tamaño 26, que utilice cada letra como índice del array.
 
 \begin{lstlisting}[language=C, caption=Diccionario sin hashtables]
 
@@ -130,7 +130,7 @@ void buildDiccionary(char cadena[], unsigned length){
 }
 \end{lstlisting}
 
-¿Por que es recomendable usar el método anterior, a utilizar un hashtable de manera inmediata?, bueno usualmente los HashTables difieren en su implementación de acuerdo a la librería y el lenguaje usado además de que hay complejidades ocultas. Por ejemplo, ¿cuanto tarda la función de hashing en generar el hash de cada llave?, ¿Que sucede en caso de colisión entre dos llaves con el mismo hash?. Usualmente esto no importa en nuestro día a día como ingenieros de software, pero las entrevistas algorítmicas buscan asegurarse que al menos el entrevistado este consiente de los compromisos que se hacen al utilizar estas estructuras.
+¿Por qué es recomendable usar el método anterior, a utilizar un hashtable de manera inmediata?, bueno usualmente los HashTables difieren en su implementación de acuerdo a la librería y el lenguaje usado además de que hay complejidades ocultas. Por ejemplo, ¿cuánto tarda la función de hashing en generar el hash de cada llave?, ¿Que sucede en caso de colisión entre dos llaves con el mismo hash?. Usualmente esto no importa en nuestro día a día como ingenieros de software, pero las entrevistas algorítmicas buscan asegurarse de que al menos el entrevistado este consiente de los compromisos que se hacen al utilizar estas estructuras.
 
 \subsection{Ejercicios}
 \begin{enumerate}
@@ -139,11 +139,11 @@ void buildDiccionary(char cadena[], unsigned length){
 
 \section{Stacks o pilas}
 
-Los stacks son estructuras basadas en listas o arrays y están diseñados para guardar datos de manera dinámica, de manera que el ultimo dato dato agregado es el ultimo dato extraído (mecanismo LIFO). Usualmente tienen una función \textbf{push} que agrega un elemento al stack y una función \textbf{pop} que devuelve el ultimo elemento agregado.
+Los stacks son estructuras basadas en listas o arrays y están diseñados para guardar datos de manera dinámica, de manera que el último dato dato agregado es el primer dato extraído (mecanismo LIFO). Usualmente tienen una función \textbf{push} que agrega un elemento al stack y una función \textbf{pop} que devuelve el último elemento agregado.
 
 \begin{itemize}
     \item \textbf{Complejidad para agregar un nuevo elemento:} constante $O(1)$.
-    \item \textbf{Complejidad para recuperar el ultimo elemento:} constante $O(1)$.
+    \item \textbf{Complejidad para recuperar el último elemento:} constante $O(1)$.
 \end{itemize}
 
 \subsection{Ejercicios}
@@ -157,18 +157,19 @@ Los stacks son estructuras basadas en listas o arrays y están diseñados para g
 
 \section{Arboles}
 
-Los arboles son una estructura similar a las listas, solo que cada nodo puede tener una gran variedad de hijos. A los nodos mas alejados de la raíz y que no tienen hijos se les conoce como hojas y al nodo que es padre de todos los nodos se le conoce como raíz. Un nodo de un árbol debe tener algún valor contenido, y una manera de indicar cuales son los hijos de ese nodo, puede ser en un arreglo o una lista ligada.
+Los árboles son una estructura similar a las listas, solo que cada nodo puede tener una gran variedad de hijos. A los nodos más alejados de la raíz y que no tienen hijos se les conoce como hojas y al nodo que es padre de todos los nodos se le conoce como raíz. Un nodo de un árbol debe tener algún valor contenido, y una manera de indicar cuales son los hijos de ese nodo, puede ser en un arreglo o una lista ligada.
 
-Los arboles son una estructura abstracta que puede representarse de muchas maneras dependiendo del lenguaje usado, las complejidades de escritura y lectura dependen del tipo de árbol.
+Los árboles son una estructura abstracta que puede representarse de muchas maneras dependiendo del lenguaje usado, las complejidades de escritura y lectura dependen del tipo de árbol.
 
 \section{Heaps}
 
-Los heaps, son arboles binarios, que en la raíz tienen a el elemento mas grande o mas pequeño dependiendo si es un max heap o un min heap respectivamente.
+Los heaps, son arboles binarios, que en la raíz tienen a el elemento más grande o más pequeño dependiendo si es un max heap o un min heap respectivamente.
 
 Tiene la propiedad de que todo el árbol mantiene a sus elementos en orden.
 
 \begin{itemize}
-    \item \textbf{Complejidad para agregar un nuevo elemento:} logaritmica $O(log n)$.
+    \item \textbf{Complejidad para construir el heap a partir de un array:} lineal $O(n)$.
+    \item \textbf{Complejidad para agregar un elemento:} logaritmica $O(log n)$.
     \item \textbf{Complejidad para buscar el elemento más grande o más pequeño elemento:} constante $O(1)$.
 \end{itemize}
 
@@ -192,7 +193,7 @@ function minHeapify (arr, n, i) {
         smallest = l; 
    }
   
-  // Si el hijo derecho es mas pequeño que el elemento raiz se
+  // Si el hijo derecho es mas pequenio que el elemento raiz se
   // planea invertir sus posiciones
    if (r < n && arr[r] < arr[smallest]) {
         smallest = r; 
@@ -236,5 +237,32 @@ function minHeapify (arr, n, i) {
 
 \begin{enumerate}
     \item Averigua si tu lenguaje favorito, tiene alguna librería que implemente heaps y busca acerca de su implementación interna.
-    \item El siguiente problema tiene varias soluciones pero una de ellas utiliza heaps, intenta llegar a la solución utilizando esta estructura: https://leetcode.com/problems/kth-largest-element-in-an-array/
+    \item El siguiente problema tiene varias soluciones, pero una de ellas utiliza heaps, intenta llegar a la solución utilizando esta estructura: https://leetcode.com/problems/kth-largest-element-in-an-array/
 \end{enumerate}
+
+
+\section{Quadtree}
+
+Un uso muy útil de los arboles se da en gráficos 2D y 3D, supongamos que tienes $n$ objetos (triangulos, rectangulos, pikachus, etc ..) en un plano, y deseas agregar un nuevo objeto con la única condición que no colisione con los objetos ya existentes. Una solución muy fácil es comparar contra los $n$ objetos ya existentes en el plano, sin embargo esto es poco eficiente  ya que si $n$ es muy grande entonces agregar un nuevo objeto seria costoso. 
+
+Para este problema existen distintas soluciones con arboles, dos de ellas son los KD-trees y los Quadtree. El mas sencillo es el QuadTree, en el cual cada nodo representa un cuadrante del plano. Por ejemplo la raíz del árbol es todo el plano, esta raíz tendrá 4 hijos, cada hijo se encarga de un cuadrante del plano. Y cada cuadrante a su vez se subdivide en 4 hijos y así sucesivamente. Para construir un Quadtree el pseudo-algoritmo es el siguiente: 
+
+\begin{enumerate}
+    \item Al agregar un nuevo elemento a la raíz, verificar que se encuentre dentro del plano, si es así colocarlo en el nodo raíz. 
+    \item Si el numero de objetos en el nodo raíz excede los $k$ elementos, subdividir el plano en 4 cuadrantes. Reubicar los $k$ objetos de la raíz en los 4 cuadrantes recién creados.
+    \item Al agregar un nuevo elemento verificar a que cuadrante pertenece de manera recursiva, al llegar a un cuadrante que no este subdividido comparar que el objeto no colisione contra los objetos en ese cuadrante.
+\end{enumerate}
+
+\subsection{Ejercicios}
+\begin{enumerate}
+    \item Supón que en un cuadrado de $m$ unidades de lado. Quieres agregar monedas circulares de 1 unidad de radio, con la única condición es que cada nueva moneda agregada no debe colisionar con las ya agregadas en el plano. 
+    \begin{enumerate}
+    \item Analiza la complejidad de agregar una nueva moneda utilizando el quadtree.
+    \item ¿En que casos es mas eficiente el quadtree que simplemente comparar contra todas las monedas en el plano?.
+    \end{enumerate}
+\end{enumerate}
+
+
+
+
+
